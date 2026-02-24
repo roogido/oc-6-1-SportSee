@@ -140,6 +140,15 @@
 	color: #111;
 }
 
+/* Vos dernières performances */
+.performanceGrid {
+	display: grid;
+	grid-template-columns: 445px 583px;
+	gap: 24px;
+	align-items: start;
+}
+
+
 /* Lisible >= 1024px, mais on évite de casser si fenêtre plus petite */
 @media (max-width: 1024px) {
 	.container {
@@ -166,5 +175,8 @@
 
 	.weekGrid > :first-child {
 		grid-row: auto;
+	}
+	.performanceGrid {
+		grid-template-columns: 1fr;
 	}
 }

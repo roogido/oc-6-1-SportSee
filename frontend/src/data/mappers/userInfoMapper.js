@@ -15,26 +15,34 @@
  */
 
 export function mapUserInfo(raw) {
-	if (!raw || !raw.profile || !raw.statistics) {
-		throw new Error('Invalid user-info payload');
-	}
+  if (!raw || !raw.profile || !raw.statistics) {
+    throw new Error('Invalid user-info payload');
+  }
 
-	const { profile, statistics } = raw;
+  const { profile, statistics } = raw;
 
-	return {
-		user: {
-			firstName: profile.firstName ?? '',
-			lastName: profile.lastName ?? '',
-			createdAt: profile.createdAt ?? null,
-			age: Number(profile.age ?? 0),
-			weightKg: Number(profile.weight ?? 0),
-			heightCm: Number(profile.height ?? 0),
-			profilePictureUrl: profile.profilePicture ?? null,
-		},
-		stats: {
-			totalDistanceKm: Number(statistics.totalDistance ?? 0),
-			totalSessions: Number(statistics.totalSessions ?? 0),
-			totalDurationMin: Number(statistics.totalDuration ?? 0),
-		},
-	};
+  const picture = (profile.profilePicture ?? '').trim();
+
+  const isAbsolute =
+    /^https?:\/\//.test(picture) || picture.startsWith('/');
+
+  const profilePictureUrl =
+    picture ? (isAbsolute ? picture : `/images/users/${picture}`) : null;
+
+  return {
+    user: {
+      firstName: profile.firstName ?? '',
+      lastName: profile.lastName ?? '',
+      createdAt: profile.createdAt ?? null,
+      age: Number(profile.age ?? 0),
+      weightKg: Number(profile.weight ?? 0),
+      heightCm: Number(profile.height ?? 0),
+      profilePictureUrl,
+    },
+    stats: {
+      totalDistanceKm: Number(statistics.totalDistance ?? 0),
+      totalSessions: Number(statistics.totalSessions ?? 0),
+      totalDurationMin: Number(statistics.totalDuration ?? 0),
+    },
+  };
 }

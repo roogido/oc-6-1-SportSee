@@ -16,7 +16,6 @@
  * - getProfileImage()
  */
 
-// src/data/providers/mockProvider.js
 
 import { getUserId } from '../../api/tokenStorage';
 

@@ -16,7 +16,8 @@
  * Date : 22-02-2026
  */
 
-// src/data/mappers/userActivityMapper.js
+import { parseIsoDateLocal } from '../../utils/isoDate';
+
 
 export function mapUserActivity(rawArray) {
 	if (!Array.isArray(rawArray)) {
@@ -24,7 +25,7 @@ export function mapUserActivity(rawArray) {
 	}
 
 	return rawArray.map((item) => {
-		const dateObj = new Date(item.date);
+		const dateObj = parseIsoDateLocal(item.date);
 
 		return {
 			dateIso: item.date,
