@@ -17,8 +17,7 @@ export function getToken() {
 }
 
 export function getUserId() {
-	const raw = localStorage.getItem(USER_ID_KEY);
-	return raw ? Number(raw) : null;
+	return localStorage.getItem(USER_ID_KEY);
 }
 
 export function setAuth({ token, userId }) {

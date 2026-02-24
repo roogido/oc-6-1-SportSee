@@ -31,3 +31,17 @@
   cursor: pointer;
   padding: 0;
 }
+
+.brand {
+	display: inline-flex;
+	align-items: center;
+}
+
+.dataSourceHint {
+	margin-left: 10px;
+	font-size: 12px;
+	line-height: 1;
+	color: rgba(0, 0, 0, 0.35);
+	letter-spacing: 0.2px;
+	user-select: none;
+}

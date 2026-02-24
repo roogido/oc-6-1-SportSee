@@ -1,0 +1,113 @@
+/* src/components/WeeklyAverageChart/WeeklyAverageChart.module.css */
+
+.card {
+	height: 484px;
+	background: #fff;
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-soft);
+	padding: 18px 18px 14px;
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 16px;
+	margin-bottom: 10px;
+}
+
+.headline {
+	line-height: 1.1;
+}
+
+.headlineValue {
+	font-size: 22px;
+	font-weight: 800;
+	color: #1f2cff; /* bleu titre */
+}
+
+.headlineText {
+	font-size: 22px;
+	font-weight: 700;
+	color: #1f2cff;
+}
+
+.subline {
+	margin: 6px 0 0;
+	font-size: 12px;
+	color: #666;
+}
+
+.rangePicker {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.rangeBtn {
+	width: 28px;
+	height: 28px;
+	border-radius: 999px;
+	border: 1px solid #e7e7e7;
+	background: #fff;
+	cursor: pointer;
+	line-height: 1;
+	font-size: 18px;
+}
+
+.rangeBtn:active {
+	transform: translateY(1px);
+}
+
+.rangeLabel {
+	font-size: 12px;
+	color: #666;
+	white-space: nowrap;
+}
+
+.chartArea {
+	flex: 1;
+	width: 100%;
+	margin-top: 6px;
+}
+
+.tooltip {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 6px 10px;
+	font-size: 12px;
+	color: #111;
+}
+
+.legend {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 6px;
+}
+
+.legendDot {
+	width: 8px;
+	height: 8px;
+	border-radius: 999px;
+	background: #b8bfff; /* lavande */
+}
+
+.legendText {
+	font-size: 12px;
+	color: #666;
+}
+
+.bar {
+	fill: #b6bdfc;
+}
+
+.legendDot {
+	width: 8px;
+	height: 8px;
+	border-radius: 999px;
+	background: #b6bdfc;
+}

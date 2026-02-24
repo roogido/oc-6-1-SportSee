@@ -1,0 +1,129 @@
+.card {
+	height: 484px;
+	background: #fff;
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-soft);
+	padding: 18px 18px 14px;
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 16px;
+	margin-bottom: 10px;
+}
+
+.headline {
+	line-height: 1.1;
+}
+
+.value {
+	font-size: 22px;
+	font-weight: 800;
+	color: #ff3b1d;
+}
+
+.unit {
+	font-size: 22px;
+	font-weight: 700;
+	color: #ff3b1d;
+}
+
+.subline {
+	margin: 6px 0 0;
+	font-size: 12px;
+	color: #666;
+}
+
+.rangePicker {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.rangeBtn {
+	width: 28px;
+	height: 28px;
+	border-radius: 999px;
+	border: 1px solid #e7e7e7;
+	background: #fff;
+	cursor: pointer;
+	line-height: 1;
+	font-size: 18px;
+}
+
+.rangeLabel {
+	font-size: 12px;
+	color: #666;
+	white-space: nowrap;
+}
+
+.chartArea {
+	flex: 1;
+	width: 100%;
+    height: 330px; 
+	margin-top: 6px;
+}
+
+.tooltip {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 8px 10px;
+	font-size: 12px;
+	color: #111;
+}
+
+.tooltipTitle {
+	font-weight: 700;
+	margin-bottom: 4px;
+}
+
+.barMin {
+	fill: #f6b1a6;
+}
+
+.barMax {
+	fill: #ff3b1d;
+}
+
+.lineAvg {
+	stroke: #1f2cff;
+}
+
+.legend {
+	display: flex;
+	gap: 18px;
+	align-items: center;
+	padding-top: 8px;
+}
+
+.legendItem {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	color: #666;
+}
+
+.legendDot {
+	width: 8px;
+	height: 8px;
+	border-radius: 999px;
+	display: inline-block;
+}
+
+.dotMin {
+	background: #f6b1a6;
+}
+
+.dotMax {
+	background: #ff3b1d;
+}
+
+.dotAvg {
+	background: #1f2cff;
+}
