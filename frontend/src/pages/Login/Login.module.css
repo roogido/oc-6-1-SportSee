@@ -1,0 +1,95 @@
+.loginPage {
+  display: grid;
+  grid-template-columns: 632px 1fr;
+  min-height: calc(100vh - 120px);
+}
+
+.left {
+  width: 632px;   
+  padding: 0 55px;         
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;        
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-size: 28px;
+  line-height: 1.2;
+  color: #1230ff;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+.input {
+  height: 42px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0 12px;
+  outline: none;
+}
+
+.button {
+  margin-top: 10px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: #1230ff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.forgot {
+  border: 0;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  margin-top: 6px;
+}
+
+.forgot:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  color: #c0392b;
+  font-size: 13px;
+}

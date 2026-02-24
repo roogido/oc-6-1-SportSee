@@ -1,0 +1,22 @@
+/* src/components/layout/Layout/Layout.css */
+
+.viewport {
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  justify-content: center;
+}
+
+.app {
+  width: 100%;
+  max-width: 1440px;
+  min-width: 1024px;
+  min-height: 100vh;
+  background: #f3f6ff;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
