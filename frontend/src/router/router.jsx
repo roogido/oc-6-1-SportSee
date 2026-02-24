@@ -6,23 +6,29 @@
  * Date : 14 février 2026
  */
 
-import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../components/layout/Layout/Layout';
-import PublicOnlyRoute from './PublicOnlyRoute';
-import Login from '../pages/Login';
-import Dashboard from '../pages/Dashboard';
-import Profile from '../pages/Profile';
-import NotFound from "../pages/Errors/NotFound";
-import ProtectedRoute from './ProtectedRoute';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
+import Layout from '../components/layout/Layout/Layout';
+
+import Dashboard from '../pages/Dashboard';
+import Login from '../pages/Login';
+import Profile from '../pages/Profile';
+import NotFound from '../pages/Errors/NotFound';
+
+import ProtectedRoute from './ProtectedRoute';
+import PublicOnlyRoute from './PublicOnlyRoute';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
+      // Racine : choix simple. On redirige vers dashboard.
+      // ProtectedRoute gérera la redirection vers /login si non auth.
+      { index: true, element: <Navigate to="dashboard" replace /> },
+
       {
-        path: "/login",
+        path: 'login',
         element: (
           <PublicOnlyRoute>
             <Login />
@@ -30,7 +36,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard",
+        path: 'dashboard',
         element: (
           <ProtectedRoute>
             <Dashboard />
@@ -38,14 +44,15 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile",
+        path: 'profile',
         element: (
           <ProtectedRoute>
             <Profile />
           </ProtectedRoute>
         ),
       },
-      { path: "*", element: <NotFound /> },
+
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]);

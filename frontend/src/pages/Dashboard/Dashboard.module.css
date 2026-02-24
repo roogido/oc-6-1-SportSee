@@ -1,64 +1,166 @@
 /* src/pages/Dashboard/Dashboard.module.css */
 
 .dashboard {
-  padding: 48px 0;
-  min-height: calc(100vh - 80px);
+	padding: 48px 0;
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 40px;
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 40px;
 }
 
-.title {
-  margin: 0 0 24px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #111;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 24px;
-  align-items: start;
-}
-
-.card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  padding: 24px;
-}
-
-.kpiColumn {
-  display: grid;
-  gap: 16px;
-}
-
-.kpiCard {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  min-height: 80px;
-  padding: 16px;
-}
-
-/* états */
 .state {
-  padding: 24px 40px;
+	padding: 24px 40px;
 }
 
 .error {
-  padding: 24px 40px;
-  color: red;
+	padding: 24px 40px;
+	color: red;
 }
 
-/* responsive (1024 minimum) */
+/* --- Top card --- */
+.topRow {
+	margin-bottom: 28px;
+}
+
+.userCard {
+	background: #fff;
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-soft);
+	padding: 18px 20px;
+	display: grid;
+	grid-template-columns: 64px 1fr 260px;
+	align-items: center;
+	gap: 16px;
+}
+
+.avatar {
+	width: 64px;
+	height: 64px;
+	border-radius: 12px;
+	object-fit: cover;
+	background: #eee;
+}
+
+.userMeta {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.userName {
+	font-weight: 700;
+	color: #111;
+}
+
+.userSince {
+	color: #666;
+	font-size: 13px;
+}
+
+.distanceTotal {
+	justify-self: end;
+	background: #0b2cf2;
+	color: #fff;
+	border-radius: 12px;
+	padding: 14px 16px;
+	width: 100%;
+	max-width: 260px;
+}
+
+.distanceLabel {
+	font-size: 12px;
+	opacity: 0.9;
+	margin-bottom: 6px;
+}
+
+.distanceValue {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+/* --- Sections --- */
+.section {
+	margin-top: 28px;
+}
+
+.sectionTitle {
+	margin: 0 0 14px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #111;
+}
+
+.twoCols {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+}
+
+.weekGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-auto-rows: minmax(120px, auto);
+	gap: 24px;
+	align-items: start;
+}
+
+.weekGrid > :first-child {
+	grid-row: span 2; /* donut = grand bloc à gauche */
+}
+
+.card {
+	background: #fff;
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-soft);
+	padding: 20px;
+}
+
+.placeholder {
+	color: #666;
+	font-size: 14px;
+	padding: 12px 0;
+}
+
+.kpiTitle {
+	font-size: 12px;
+	color: #666;
+	margin-bottom: 8px;
+}
+
+.kpiValue {
+	font-size: 20px;
+	font-weight: 700;
+	color: #111;
+}
+
+/* Lisible >= 1024px, mais on évite de casser si fenêtre plus petite */
 @media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+	.container {
+		padding: 0 16px;
+	}
+
+	.userCard {
+		grid-template-columns: 64px 1fr;
+	}
+
+	.distanceTotal {
+		grid-column: 1 / -1;
+		justify-self: start;
+		max-width: 100%;
+	}
+
+	.twoCols {
+		grid-template-columns: 1fr;
+	}
+
+	.weekGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.weekGrid > :first-child {
+		grid-row: auto;
+	}
 }

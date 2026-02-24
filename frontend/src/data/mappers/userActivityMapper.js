@@ -16,6 +16,8 @@
  * Date : 22-02-2026
  */
 
+// src/data/mappers/userActivityMapper.js
+
 export function mapUserActivity(rawArray) {
 	if (!Array.isArray(rawArray)) {
 		throw new Error('Invalid user-activity payload');

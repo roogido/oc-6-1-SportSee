@@ -1,4 +1,4 @@
-/* src/components/layout/Layout/Layout.css */
+/* src/components/layout/Layout/Layout.module.css */
 
 .viewport {
   min-height: 100vh;
@@ -10,13 +10,14 @@
 .app {
   width: 100%;
   max-width: 1440px;
-  min-width: 1024px;
   min-height: 100vh;
   background: #f3f6ff;
   display: flex;
   flex-direction: column;
 }
 
+/* Zone de contenu : prend l'espace disponible entre Header et Footer */
 .main {
   flex: 1;
+  width: 100%;
 }
