@@ -60,6 +60,10 @@
 	font-size: 13px;
 }
 
+.sectionSpacer {
+	height: 16px;
+}
+
 .distanceTotal {
 	justify-self: end;
 	background: #0b2cf2;

@@ -18,22 +18,18 @@
  *   endWeek: string (YYYY-MM-DD)
  * }
  */
-export function getLast7DaysRange() {
+function toIsoDate(d) {
+	return d.toISOString().slice(0, 10);
+}
 
-	// Date actuelle (fin de période)
+export function getLastNDaysRange(days) {
+	if (!Number.isInteger(days) || days <= 0) {
+		throw new Error('getLastNDaysRange(days): days must be a positive integer');
+	}
+
 	const end = new Date();
-
-	// Copie de la date actuelle pour éviter de modifier "end"
 	const start = new Date(end);
+	start.setDate(end.getDate() - (days - 1));
 
-	// Recul de 6 jours pour obtenir une plage de 7 jours au total
-	start.setDate(end.getDate() - 6);
-
-	// Convertit une Date en format ISO court (YYYY-MM-DD)
-	const toIso = (d) => d.toISOString().slice(0, 10);
-
-	return {
-		startWeek: toIso(start),
-		endWeek: toIso(end),
-	};
+	return { startDate: toIsoDate(start), endDate: toIsoDate(end) };
 }
