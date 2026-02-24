@@ -1,0 +1,64 @@
+/* src/pages/Dashboard/Dashboard.module.css */
+
+.dashboard {
+  padding: 48px 0;
+  min-height: calc(100vh - 80px);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+.card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 24px;
+}
+
+.kpiColumn {
+  display: grid;
+  gap: 16px;
+}
+
+.kpiCard {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  min-height: 80px;
+  padding: 16px;
+}
+
+/* états */
+.state {
+  padding: 24px 40px;
+}
+
+.error {
+  padding: 24px 40px;
+  color: red;
+}
+
+/* responsive (1024 minimum) */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

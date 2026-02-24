@@ -6,25 +6,46 @@
  * Date : 14 février 2026
  */
 
-import { createBrowserRouter } from "react-router-dom";
-import Layout from "../components/Layout.jsx";
-import Login from "../pages/Login.jsx";
-import Dashboard from "../pages/Dashboard.jsx";
-import Profile from "../pages/Profile.jsx";
-import NotFound from "../pages/NotFound.jsx";
+import { createBrowserRouter } from 'react-router-dom';
+import Layout from '../components/layout/Layout/Layout';
+import PublicOnlyRoute from './PublicOnlyRoute';
+import Login from '../pages/Login';
+import Dashboard from '../pages/Dashboard';
+import Profile from '../pages/Profile';
+import NotFound from "../pages/Errors/NotFound";
+import ProtectedRoute from './ProtectedRoute';
 
 
 export const router = createBrowserRouter([
   {
-    path: "/", element: <Layout />,
-    errorElement: <NotFound />,
+    path: "/",
+    element: <Layout />,
     children: [
-      { index: true, element: <Login /> },
-      { path: "login", element: <Login /> },
-      { path: "dashboard", element: <Dashboard /> },
-      { path: "profile", element: <Profile /> }
-
-    ]
-  }
+      {
+        path: "/login",
+        element: (
+          <PublicOnlyRoute>
+            <Login />
+          </PublicOnlyRoute>
+        ),
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      { path: "*", element: <NotFound /> },
+    ],
+  },
 ]);
-
