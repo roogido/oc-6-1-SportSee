@@ -16,40 +16,81 @@
  * - getProfileImage()
  */
 
-// Données brutes simulées (comme si elles venaient d'une API)
-import { mockUserInfoRaw } from '../mocks/userInfo.raw.mock';
-import { mockUserActivityRaw } from '../mocks/userActivity.raw.mock';
+// src/data/providers/mockProvider.js
 
-// Mappers : transforment les données brutes en format exploitable par l'app
+import { getUserId } from '../../api/tokenStorage';
+
+import user123Info from '../raw/users/user123.user-info.json';
+import user123Activity from '../raw/users/user123.user-activity.json';
+
+import user456Info from '../raw/users/user456.user-info.json';
+import user456Activity from '../raw/users/user456.user-activity.json';
+
+import user789Info from '../raw/users/user789.user-info.json';
+import user789Activity from '../raw/users/user789.user-activity.json';
+
 import { mapUserInfo } from '../mappers/userInfoMapper';
 import { mapUserActivity } from '../mappers/userActivityMapper';
 
-// Simule un délai réseau (Promise + setTimeout)
 function delay(ms = 200) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// Factory qui crée un provider mock (même interface que l'API réelle)
+const RAW_BY_USER = {
+	user123: { info: user123Info, activity: user123Activity },
+	user456: { info: user456Info, activity: user456Activity },
+	user789: { info: user789Info, activity: user789Activity },
+};
+
+function getCurrentUserKeyOrThrow() {
+	const userId = getUserId();
+
+	if (!userId) {
+		throw new Error('MockProvider: missing userId (not authenticated)');
+	}
+
+	const key = String(userId);
+
+	if (!RAW_BY_USER[key]) {
+		throw new Error(`MockProvider: unknown userId "${key}"`);
+	}
+
+	return key;
+}
+
+function isWithinRange(dateIso, startWeek, endWeek) {
+	if (!startWeek || !endWeek) return true;
+	return dateIso >= startWeek && dateIso <= endWeek;
+}
+
 export function createMockProvider() {
 	return {
-
-		// Simule la récupération des infos utilisateur
 		async getUserInfo() {
-			await delay(); // simulation latence réseau
-			return mapUserInfo(mockUserInfoRaw); // transformation des données
-		},
-
-		// Simule la récupération de l'activité utilisateur
-		async getUserActivity({ startWeek, endWeek } = {}) {
-			// startWeek/endWeek ignorés en mock pour l’instant 
 			await delay();
-			return mapUserActivity(mockUserActivityRaw);
+			const key = getCurrentUserKeyOrThrow();
+			return mapUserInfo(RAW_BY_USER[key].info);
 		},
 
-		// Méthode non implémentée en mock (permet de tester la gestion d'erreur)
+		async getUserActivity({ startWeek, endWeek } = {}) {
+			await delay();
+			const key = getCurrentUserKeyOrThrow();
+
+			const sessions = RAW_BY_USER[key].activity;
+
+			if (!Array.isArray(sessions)) {
+				throw new Error('MockProvider: invalid activity payload (expected array)');
+			}
+
+			const filtered = sessions.filter((s) =>
+				isWithinRange(s.date, startWeek, endWeek)
+			);
+
+			return mapUserActivity(filtered);
+		},
+
 		async getProfileImage() {
 			await delay();
-			throw new Error('Mock profile image not implemented yet');
+			throw new Error('Mock profile image not implemented in mock mode');
 		},
 	};
 }
