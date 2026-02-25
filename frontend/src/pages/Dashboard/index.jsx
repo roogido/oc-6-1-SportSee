@@ -6,7 +6,6 @@ import outlineIcon from '../../assets/images/outline.png';
 import { useUserInfo } from '../../hooks/useUserInfo';
 import { useUserActivity } from '../../hooks/useUserActivity';
 
-import ActivityChart from '../../components/ActivityChart/ActivityChart';
 import WeeklyAverageChart from '../../components/WeeklyAverageChart/WeeklyAverageChart';
 import HeartRateChart from '../../components/HeartRateChart/HeartRateChart';
 
@@ -84,14 +83,9 @@ function getMaxDateIsoOrEmpty(sessions) {
 export default function Dashboard() {
 	const { data, isLoading, error } = useUserInfo();
 
-	// Offsets UI
-	// - KM: pas de 4 semaines (28 jours) pour coller au graphe "Distance moyenne"
-	// - BPM: pas de 1 semaine
-	const [kmOffsetBlocks, setKmOffsetBlocks] = useState(0); // 1 block = 4 semaines
-	const [bpmOffsetWeeks, setBpmOffsetWeeks] = useState(0); // 1 = 1 semaine
+	const [kmOffsetBlocks, setKmOffsetBlocks] = useState(0);
+	const [bpmOffsetWeeks, setBpmOffsetWeeks] = useState(0);
 
-	// On charge "large" pour être robuste en mock + API.
-	// Le slicing/offset se fait côté selectors, pas via le backend.
 	const startDate = '2025-01-01';
 	const endDate = '2025-12-31';
 
@@ -101,7 +95,6 @@ export default function Dashboard() {
 		error: activityError,
 	} = useUserActivity({ startWeek: startDate, endWeek: endDate });
 
-	// --- Derived ---
 	const memberSince = useMemo(() => {
 		return data?.user?.createdAt
 			? formatMemberSince(data.user.createdAt)
@@ -115,17 +108,8 @@ export default function Dashboard() {
 		);
 	}, [activityAll]);
 
-	// Date de référence (dernière date dispo) => stable mock/API
 	const maxIso = useMemo(() => getMaxDateIsoOrEmpty(sortedAll), [sortedAll]);
 
-	// "Cette semaine" (fallback si besoin) : 7 dernières sessions dispo
-	const last7Sessions = useMemo(() => {
-		if (!sortedAll.length) return [];
-		return sortedAll.slice(-7);
-	}, [sortedAll]);
-
-	// --- KM chart (Distance moyenne) ---
-	// Décale la date de référence par blocs de 28 jours.
 	const kmEndIso = useMemo(() => {
 		if (!maxIso) return '';
 		const d = parseIsoDateLocal(maxIso);
@@ -146,7 +130,6 @@ export default function Dashboard() {
 		return formatShortRangeLabel(toIsoDateLocal(start), kmEndIso);
 	}, [kmEndIso]);
 
-	// --- BPM chart ---
 	const heartRateWeek = useMemo(() => {
 		if (!sortedAll.length)
 			return { range: { startIso: '', endIso: '' }, days: [] };
@@ -167,45 +150,28 @@ export default function Dashboard() {
 		return formatShortRangeLabel(startIso, endIso);
 	}, [heartRateWeek]);
 
-	// --- Cette semaine (donut + KPI) ---
 	const weekKpis = useMemo(() => {
 		const { startIso, endIso } = heartRateWeek?.range ?? {
 			startIso: '',
 			endIso: '',
 		};
-
-		if (startIso && endIso) {
+		if (startIso && endIso)
 			return buildWeekKpis(sortedAll, { startIso, endIso });
-		}
 
-		// fallback: agrégats sur les 7 dernières sessions
-		return {
-			distanceKm: last7Sessions.reduce(
-				(sum, s) => sum + (Number(s.distanceKm) || 0),
-				0,
-			),
-			durationMin: last7Sessions.reduce(
-				(sum, s) => sum + (Number(s.durationMin) || 0),
-				0,
-			),
-			sessionsCount: last7Sessions.length,
-		};
-	}, [sortedAll, heartRateWeek, last7Sessions]);
+		// fallback minimal si range vide (rare)
+		return { distanceKm: 0, durationMin: 0, sessionsCount: 0 };
+	}, [sortedAll, heartRateWeek]);
 
 	const weekRangeText = useMemo(() => {
 		const { startIso, endIso } = heartRateWeek?.range ?? {
 			startIso: '',
 			endIso: '',
 		};
-
-		if (startIso && endIso)
-			return formatFullWeekRangeLabel(startIso, endIso);
-
-		// fallback (si jamais la range BPM est vide) : on ne force pas un rendu faux
-		return '';
+		return startIso && endIso
+			? formatFullWeekRangeLabel(startIso, endIso)
+			: '';
 	}, [heartRateWeek]);
 
-	// --- Returns conditionnels ---
 	if (isLoading || activityLoading)
 		return <p className={styles.state}>Chargement...</p>;
 	if (error)
@@ -251,7 +217,6 @@ export default function Dashboard() {
 							<div className={styles.distanceRightLabel}>
 								Distance totale parcourue
 							</div>
-
 							<div className={styles.distancePill}>
 								<img
 									src={outlineIcon}
@@ -319,12 +284,6 @@ export default function Dashboard() {
 								accent="orange"
 							/>
 						</div>
-					</div>
-
-					<div className={styles.sectionSpacer} />
-
-					<div className={styles.card}>
-						<ActivityChart data={last7Sessions} />
 					</div>
 				</section>
 			</div>

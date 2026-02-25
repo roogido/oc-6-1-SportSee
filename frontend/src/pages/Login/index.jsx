@@ -1,10 +1,18 @@
-// src/pages/Login.jsx
+/**
+ * @file Login.jsx
+ * @description
+ * Page d'authentification.
+ * - Full screen (pas de header/footer)
+ * - Logo intégré dans la colonne gauche
+ */
+
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
-import styles from './Login.module.css';
 
+import styles from './Login.module.css';
 import bgImage from '../../assets/images/background-picture.png';
+import logoHeader from '../../assets/images/brand/logo-header.png';
 
 export default function Login() {
 	const { login } = useAuth();
@@ -29,6 +37,7 @@ export default function Login() {
 		} catch (err) {
 			const status =
 				err?.status ?? err?.response?.status ?? err?.cause?.status;
+
 			if (status === 401) setErrorMsg('Identifiants incorrects');
 			else setErrorMsg('Erreur serveur');
 		} finally {
@@ -38,65 +47,83 @@ export default function Login() {
 
 	return (
 		<div className={styles.loginPage}>
+			{/* COLONNE GAUCHE */}
 			<section className={styles.left}>
-				<div className={styles.card}>
-					<h1 className={styles.title}>
-						Transformez 
-						<br />
-						vos stats en résultats
-					</h1>
+				<div className={styles.leftInner}>
+					<img
+						className={styles.logo}
+						src={logoHeader}
+						alt="SportSee"
+					/>
 
-					<h2 className={styles.subtitle}>Se connecter</h2>
+					<div className={styles.card}>
+						<h1 className={styles.title}>
+							Transformez
+							<br />
+							vos stats en résultats
+						</h1>
 
-					<form className={styles.form} onSubmit={handleSubmit}>
-						<label className={styles.label} htmlFor="username">
-							Nom d’utilisateur
-							<input
-								id="username"
-								name="username"
-								autoComplete="username"
-								className={styles.input}
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
-								required
-							/>
-						</label>
+						<h2 className={styles.subtitle}>Se connecter</h2>
 
-						<label className={styles.label} htmlFor="password">
-							Mot de passe
-							<input
-								id="password"
-								name="password"
-								autoComplete="current-password"
-								className={styles.input}
-								type="password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								required
-							/>
-						</label>
+						<form className={styles.form} onSubmit={handleSubmit}>
+							<label className={styles.label} htmlFor="username">
+								Nom d’utilisateur
+								<input
+									id="username"
+									name="username"
+									autoComplete="username"
+									className={styles.input}
+									value={username}
+									onChange={(e) =>
+										setUsername(e.target.value)
+									}
+									required
+								/>
+							</label>
 
-						{errorMsg && <p className={styles.error}>{errorMsg}</p>}
+							<label className={styles.label} htmlFor="password">
+								Mot de passe
+								<input
+									id="password"
+									name="password"
+									type="password"
+									autoComplete="current-password"
+									className={styles.input}
+									value={password}
+									onChange={(e) =>
+										setPassword(e.target.value)
+									}
+									required
+								/>
+							</label>
 
-						<button
-							className={styles.button}
-							type="submit"
-							disabled={isLoading}
-						>
-							{isLoading ? 'Connexion...' : 'Se connecter'}
-						</button>
+							{errorMsg && (
+								<p className={styles.error}>{errorMsg}</p>
+							)}
 
-						<button
-							className={styles.forgot}
-							type="button"
-							disabled
-						>
-							Mot de passe oublié ?
-						</button>
-					</form>
+							<button
+								className={styles.button}
+								type="submit"
+								disabled={isLoading}
+							>
+								{isLoading
+									? 'Connexion...'
+									: 'Se connecter'}
+							</button>
+
+							<button
+								className={styles.forgot}
+								type="button"
+								disabled
+							>
+								Mot de passe oublié ?
+							</button>
+						</form>
+					</div>
 				</div>
 			</section>
 
+			{/* COLONNE DROITE */}
 			<section
 				className={styles.right}
 				style={{ backgroundImage: `url(${bgImage})` }}

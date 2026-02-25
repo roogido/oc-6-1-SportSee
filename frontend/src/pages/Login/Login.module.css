@@ -1,127 +1,131 @@
+/**
+ * Login.module.css
+ * Layout full screen sans header/footer
+ */
+
 .loginPage {
-  display: grid;
-  grid-template-columns: 632px 1fr;
-  min-height: calc(100vh - 120px);
+	display: grid;
+	grid-template-columns: 632px 1fr;
+	min-height: 100vh; /* Full viewport */
 }
 
 .left {
-  width: 632px;   
-  padding: 0 55px;         
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	width: 632px;
+	padding: 0 55px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.right {
-  flex: 1;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+.leftInner {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.logo {
+	width: 140px;
+	height: auto;
+  margin-bottom: 151px;
 }
 
 .card {
-  width: 100%;
-  max-width: 420px;        
-  background: #fff;
-  border-radius: 16px;
-  padding: 32px;
+	width: 100%;
+	max-width: 420px;
+	background: #fff;
+	border-radius: 16px;
+	padding: 32px;
 }
 
 .title {
-  margin: 0 0 40px;
-  font-family: var(--font-sans);
-  font-size: 28px;
-  font-weight: 700;  
-  line-height: 1.2;
-  color: #1230ff;
+	margin: 0 0 40px;
+	font-family: var(--font-sans);
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #1230ff;
 }
 
 .subtitle {
-  font-family: var(--font-sans);
-  margin: 0 0 24px;
-  font-size: 22px;
-  color: #111111;
-  font-weight: 600;
+	margin: 0 0 24px;
+	font-size: 22px;
+	color: #111111;
+	font-weight: 600;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
 }
 
 .label {
-  font-family: var(--font-sans);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 14px;
-  color: #707070;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: 14px;
+	color: #707070;
 }
 
 .input {
-  font-family: var(--font-sans);
-  margin: 0 0 24px;
-  height: 42px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 0 14px;
-  outline: none;
+	margin: 0 0 24px;
+	height: 42px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 0 14px;
+	outline: none;
 }
 
 .button {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  margin-top: 10px;
-  height: 44px;
-  border: 0;
-  border-radius: 10px;
-  background: #1230ff;
-  color: #fff;
-  cursor: pointer;
+	margin-top: 10px;
+	height: 44px;
+	border: 0;
+	border-radius: 10px;
+	background: #1230ff;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
 }
 
 .forgot {
-  border: 0;
-  background: transparent;
-  color: #333;
-  cursor: pointer;
-  text-align: left;
-  padding: 0;
-  margin-top: 6px;
+	border: 0;
+	background: transparent;
+	color: #333;
+	cursor: pointer;
+	text-align: left;
+	padding: 0;
+	margin-top: 6px;
 }
 
 .forgot:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+	opacity: 0.55;
+	cursor: not-allowed;
 }
 
 .right {
-  position: relative; 
-  flex: 1;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .imageHint {
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
-  max-width: 320px;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 16px 20px;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #0B23F4;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+	position: absolute;
+	bottom: 24px;
+	right: 24px;
+	max-width: 320px;
+	background: #ffffff;
+	border-radius: 16px;
+	padding: 16px 20px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #0b23f4;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .error {
-  margin: 0;
-  color: #c0392b;
-  font-size: 13px;
+	margin: 0;
+	color: #c0392b;
+	font-size: 13px;
 }
