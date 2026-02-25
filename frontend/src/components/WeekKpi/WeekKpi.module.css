@@ -1,0 +1,39 @@
+/* src/components/WeekKpi/WeekKpi.module.css */
+.card {
+	height: 103px;
+	width: 100%;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: var(--shadow-soft);
+	padding: 18px 24px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.label {
+	font-size: 12px;
+	color: rgba(0, 0, 0, 0.45);
+	margin-bottom: 10px;
+}
+
+.value {
+	font-size: 20px;
+	font-weight: 700;
+	letter-spacing: 0.2px;
+}
+
+.unit {
+	font-size: 14px;
+	font-weight: 500;
+	margin-left: 6px;
+	opacity: 0.7;
+}
+
+.accent_blue {
+	color: #1122f0;
+}
+
+.accent_orange {
+	color: #ff3b20;
+}

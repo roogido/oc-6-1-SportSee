@@ -41,7 +41,9 @@ export default function Login() {
 			<section className={styles.left}>
 				<div className={styles.card}>
 					<h1 className={styles.title}>
-						Transformez vos stats en résultats
+						Transformez 
+						<br />
+						vos stats en résultats
 					</h1>
 
 					<h2 className={styles.subtitle}>Se connecter</h2>
@@ -98,7 +100,13 @@ export default function Login() {
 			<section
 				className={styles.right}
 				style={{ backgroundImage: `url(${bgImage})` }}
-			/>
+			>
+				<div className={styles.imageHint}>
+					Analysez vos performances en un clin d’œil,
+					<br />
+					suivez vos progrès et atteignez vos objectifs.
+				</div>
+			</section>
 		</div>
 	);
 }
