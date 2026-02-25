@@ -21,8 +21,11 @@
 }
 
 .value {
+	font-family: var(--font-sans);
 	font-size: 22px;
-	font-weight: 800;
+	font-weight: 500;
+	line-height: 27px;
+	letter-spacing: -0.01em;
 	color: #ff3b1d;
 }
 
@@ -53,6 +56,22 @@
 	cursor: pointer;
 	line-height: 1;
 	font-size: 18px;
+
+	transition:
+		background-color 200ms ease,
+		color 200ms ease,
+		border-color 200ms ease,
+		transform 120ms ease;
+}
+
+.rangeBtn:hover {
+	background-color: #5465F7;
+	border-color: #0B23F4;
+	color: #ffffff;
+}
+
+.rangeBtn:active {
+  transform: scale(0.96);
 }
 
 .rangeLabel {

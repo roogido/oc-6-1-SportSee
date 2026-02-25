@@ -1,47 +1,126 @@
-/* src/components/layout/SiteHeader/SiteHeader.css */
+/* src/components/layout/SiteHeader/Header.module.css */
 
 .header,
 .headerLogin {
-  padding: 40px 100px 0; 
+  padding: 35px 145px 0;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 108px;
+}
+
+/* Logo */
+.brand {
+  display: inline-flex;
+  align-items: center;
 }
 
 .logo {
-  height: 24px; 
+  height: 24px;
   width: auto;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  background: #fff;
-  border-radius: 999px;
-  padding: 10px 18px;
-}
-
-.logout {
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-}
-
-.brand {
-	display: inline-flex;
-	align-items: center;
+  display: block;
 }
 
 .dataSourceHint {
-	margin-left: 10px;
-	font-size: 12px;
-	line-height: 1;
-	color: rgba(0, 0, 0, 0.35);
-	letter-spacing: 0.2px;
-	user-select: none;
+  margin-left: 10px;
+  font-size: 12px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.2px;
+  user-select: none;
+}
+
+/* --- MENU (pill) --- */
+.nav {
+  height: 49px;                 
+  background: #ffffff;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  padding: 16px 48px;
+  gap: 55px;                    /* espace entre bloc gauche et bloc droit (maquette) */
+
+  box-shadow: 0 10px 30px rgba(17, 17, 17, 0.04);
+}
+
+/* Bloc gauche : Dashboard + Mon profil */
+.navLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;                    /* espacement entre liens */
+}
+
+/* Bloc droit : séparateur + logout */
+.navRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Liens */
+.navLink {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;            
+  line-height: 17px;
+  color: #111111;
+  text-decoration: none;
+
+  transition: color 160ms ease;
+}
+
+.navLink:hover {
+  color: #0b23f4;               /* hover */
+}
+
+/* actif */
+/* .navLinkActive {
+  color: #0b23f4;               
+} */
+
+/* Séparateur vertical */
+.separator {
+  width: 1px;
+  height: 17px;
+  background: #0b23f4;
+}
+
+.logout {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400; 
+  line-height: 17px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: #0b23f4;   
+}
+
+.logout:hover {
+  opacity: 0.85;
+}
+
+.logout:active {
+  opacity: 0.75;
+}
+
+/* Responsive simple */
+@media (max-width: 1024px) {
+  .header,
+  .headerLogin {
+    padding: 32px 16px 0;
+  }
+
+  .nav {
+    padding: 14px 28px;
+    gap: 56px;
+  }
+
+  .navLeft {
+    gap: 28px;
+  }
 }

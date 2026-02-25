@@ -9,6 +9,7 @@
 
 .app {
   width: 100%;
+  font-size: 14px;
   max-width: 1440px;
   min-height: 100vh;
   background: #f3f6ff;

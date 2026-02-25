@@ -1,0 +1,86 @@
+/* src/components/WeeklyGoalDonut/WeeklyGoalDonut.module.css */
+.card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 24px;
+  min-height: 360px;     
+  overflow: hidden;  
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chartWrap {
+  flex: 1 1 auto;        /* <-- le donut prend la place dispo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;     /* <-- évite qu'il écrase le chart */
+}
+
+.header {
+	flex: 0 0 auto;
+}
+
+.headline {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.times {
+	color: #1122f0;
+}
+
+.goal {
+	color: rgba(0, 0, 0, 0.65);
+}
+
+.headlineText {
+	color: rgba(0, 0, 0, 0.35);
+	font-weight: 500;
+}
+
+.subline {
+	margin-top: 6px;
+	font-size: 12px;
+	color: rgba(0, 0, 0, 0.45);
+}
+
+.donutWrap {
+	flex: 1;
+	display: grid;
+	place-items: center;
+	position: relative;
+}
+
+.legend {
+	position: absolute;
+	left: 24px;
+	bottom: 14px;
+	display: flex;
+	gap: 16px;
+	font-size: 12px;
+	color: rgba(0, 0, 0, 0.55);
+}
+
+.legendItem {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 999px;
+	display: inline-block;
+}
+
+.dotDone {
+	background: #1122f0;
+}
+
+.dotRemaining {
+	background: #b6bdfc;
+}

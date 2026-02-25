@@ -1,5 +1,5 @@
 // src/components/layout/SiteHeader/SiteHeader.jsx
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/useAuth';
 import logoHeader from '../../../assets/images/brand/logo-header.png';
 import styles from './Header.module.css';
@@ -15,7 +15,6 @@ export default function Header({ variant = 'app' }) {
     navigate('/login', { replace: true });
   }
 
-  // Bloc logo + indicateur (réutilisé dans les 2 variantes)
   const Brand = (
     <div className={styles.brand}>
       <img className={styles.logo} src={logoHeader} alt="SportSee" />
@@ -31,31 +30,39 @@ export default function Header({ variant = 'app' }) {
     </div>
   );
 
-  // Variante login : pas de navigation
   if (variant === 'login') {
-    return (
-      <header className={styles.headerLogin}>
-        {Brand}
-      </header>
-    );
+    return <header className={styles.headerLogin}>{Brand}</header>;
   }
+
+  const navLinkClass = ({ isActive }) =>
+    `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`;
 
   return (
     <header className={styles.header}>
       {Brand}
 
-      <nav className={styles.nav}>
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/profile">Mon profil</Link>
+      <nav className={styles.nav} aria-label="Navigation principale">
+        <div className={styles.navLeft}>
+          <NavLink to="/dashboard" className={navLinkClass}>
+            Dashboard
+          </NavLink>
+
+          <NavLink to="/profile" className={navLinkClass}>
+            Mon profil
+          </NavLink>
+        </div>
 
         {isAuthenticated && (
-          <button
-            className={styles.logout}
-            type="button"
-            onClick={handleLogout}
-          >
-            Se déconnecter
-          </button>
+          <div className={styles.navRight}>
+            <span className={styles.separator} aria-hidden="true" />
+            <button
+              className={styles.logout}
+              type="button"
+              onClick={handleLogout}
+            >
+              Se déconnecter
+            </button>
+          </div>
         )}
       </nav>
     </header>

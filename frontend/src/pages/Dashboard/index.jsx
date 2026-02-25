@@ -1,6 +1,8 @@
 // src/pages/Dashboard/index.jsx
 import { useMemo, useState } from 'react';
 
+import outlineIcon from '../../assets/images/outline.png';
+
 import { useUserInfo } from '../../hooks/useUserInfo';
 import { useUserActivity } from '../../hooks/useUserActivity';
 
@@ -10,6 +12,10 @@ import HeartRateChart from '../../components/HeartRateChart/HeartRateChart';
 
 import { buildWeeklyAverageDistance } from '../../data/selectors/weeklyAverageDistance';
 import { buildLastIsoWeekHeartRate } from '../../data/selectors/heartRateWeek';
+import { buildWeekKpis } from '../../data/selectors/weekKpis';
+
+import WeeklyGoalDonut from '../../components/WeeklyGoalDonut/WeeklyGoalDonut';
+import WeekKpi from '../../components/WeekKpi/WeekKpi';
 
 import { parseIsoDateLocal, toIsoDateLocal } from '../../utils/isoDate';
 
@@ -42,6 +48,24 @@ function formatMemberSince(isoDate) {
 		month: 'long',
 		year: 'numeric',
 	});
+}
+
+function formatFullWeekRangeLabel(startIso, endIso) {
+	if (!startIso || !endIso) return '';
+
+	const start = parseIsoDateLocal(startIso);
+	const end = parseIsoDateLocal(endIso);
+
+	if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return '';
+
+	const fmt = (d) =>
+		d.toLocaleDateString('fr-FR', {
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric',
+		});
+
+	return `Du ${fmt(start)} au ${fmt(end)}`;
 }
 
 /**
@@ -79,34 +103,29 @@ export default function Dashboard() {
 
 	// --- Derived ---
 	const memberSince = useMemo(() => {
-		return data?.user?.createdAt ? formatMemberSince(data.user.createdAt) : '';
+		return data?.user?.createdAt
+			? formatMemberSince(data.user.createdAt)
+			: '';
 	}, [data]);
 
 	const sortedAll = useMemo(() => {
 		if (!Array.isArray(activityAll)) return [];
-		return [...activityAll].sort((a, b) => (a.dateIso > b.dateIso ? 1 : -1));
+		return [...activityAll].sort((a, b) =>
+			a.dateIso > b.dateIso ? 1 : -1,
+		);
 	}, [activityAll]);
 
 	// Date de référence (dernière date dispo) => stable mock/API
 	const maxIso = useMemo(() => getMaxDateIsoOrEmpty(sortedAll), [sortedAll]);
 
-	// "Cette semaine" (KPI + ActivityChart) : on prend les 7 dernières sessions dispo
-	// (on ne peut pas faire "7 jours" car dataset non quotidien)
+	// "Cette semaine" (fallback si besoin) : 7 dernières sessions dispo
 	const last7Sessions = useMemo(() => {
 		if (!sortedAll.length) return [];
 		return sortedAll.slice(-7);
 	}, [sortedAll]);
 
-	const weekDistanceKm = useMemo(() => {
-		return last7Sessions.reduce((sum, d) => sum + (Number(d.distanceKm) || 0), 0);
-	}, [last7Sessions]);
-
-	const weekDurationMin = useMemo(() => {
-		return last7Sessions.reduce((sum, d) => sum + (Number(d.durationMin) || 0), 0);
-	}, [last7Sessions]);
-
 	// --- KM chart (Distance moyenne) ---
-	// On décale la date de référence par blocs de 28 jours.
+	// Décale la date de référence par blocs de 28 jours.
 	const kmEndIso = useMemo(() => {
 		if (!maxIso) return '';
 		const d = parseIsoDateLocal(maxIso);
@@ -119,9 +138,7 @@ export default function Dashboard() {
 		return buildWeeklyAverageDistance(sortedAll, kmEndIso, 4);
 	}, [sortedAll, kmEndIso]);
 
-	// Label KM (facultatif mais utile si ton composant affiche une plage)
 	const kmLabel = useMemo(() => {
-		// buildWeeklyAverageDistance est sur 4 semaines, donc on affiche une plage de 28 jours
 		if (!kmEndIso) return '';
 		const end = parseIsoDateLocal(kmEndIso);
 		const start = new Date(end);
@@ -130,16 +147,18 @@ export default function Dashboard() {
 	}, [kmEndIso]);
 
 	// --- BPM chart ---
-	// On décale la semaine ISO via bpmOffsetWeeks
 	const heartRateWeek = useMemo(() => {
-		if (!sortedAll.length) return { range: { startIso: '', endIso: '' }, days: [] };
+		if (!sortedAll.length)
+			return { range: { startIso: '', endIso: '' }, days: [] };
 		return buildLastIsoWeekHeartRate(sortedAll, bpmOffsetWeeks);
 	}, [sortedAll, bpmOffsetWeeks]);
 
 	const bpmAverage = useMemo(() => {
 		const days = heartRateWeek.days;
 		if (!days.length) return 0;
-		const avg = days.reduce((sum, d) => sum + (Number(d.avg) || 0), 0) / days.length;
+		const avg =
+			days.reduce((sum, d) => sum + (Number(d.avg) || 0), 0) /
+			days.length;
 		return Math.round(avg);
 	}, [heartRateWeek]);
 
@@ -148,41 +167,110 @@ export default function Dashboard() {
 		return formatShortRangeLabel(startIso, endIso);
 	}, [heartRateWeek]);
 
+	// --- Cette semaine (donut + KPI) ---
+	const weekKpis = useMemo(() => {
+		const { startIso, endIso } = heartRateWeek?.range ?? {
+			startIso: '',
+			endIso: '',
+		};
+
+		if (startIso && endIso) {
+			return buildWeekKpis(sortedAll, { startIso, endIso });
+		}
+
+		// fallback: agrégats sur les 7 dernières sessions
+		return {
+			distanceKm: last7Sessions.reduce(
+				(sum, s) => sum + (Number(s.distanceKm) || 0),
+				0,
+			),
+			durationMin: last7Sessions.reduce(
+				(sum, s) => sum + (Number(s.durationMin) || 0),
+				0,
+			),
+			sessionsCount: last7Sessions.length,
+		};
+	}, [sortedAll, heartRateWeek, last7Sessions]);
+
+	const weekRangeText = useMemo(() => {
+		const { startIso, endIso } = heartRateWeek?.range ?? {
+			startIso: '',
+			endIso: '',
+		};
+
+		if (startIso && endIso)
+			return formatFullWeekRangeLabel(startIso, endIso);
+
+		// fallback (si jamais la range BPM est vide) : on ne force pas un rendu faux
+		return '';
+	}, [heartRateWeek]);
+
 	// --- Returns conditionnels ---
-	if (isLoading || activityLoading) return <p className={styles.state}>Chargement...</p>;
-	if (error) return <p className={styles.error}>Erreur user: {error.message}</p>;
-	if (activityError) return <p className={styles.error}>Erreur activité: {activityError.message}</p>;
-	if (!data) return <p className={styles.error}>Erreur: données utilisateur indisponibles.</p>;
+	if (isLoading || activityLoading)
+		return <p className={styles.state}>Chargement...</p>;
+	if (error)
+		return <p className={styles.error}>Erreur user: {error.message}</p>;
+	if (activityError)
+		return (
+			<p className={styles.error}>
+				Erreur activité: {activityError.message}
+			</p>
+		);
+	if (!data)
+		return (
+			<p className={styles.error}>
+				Erreur: données utilisateur indisponibles.
+			</p>
+		);
 
 	return (
 		<div className={styles.dashboard}>
 			<div className={styles.container}>
 				<section className={styles.topRow}>
 					<div className={styles.userCard}>
-						<img
-							className={styles.avatar}
-							src={data.user.profilePictureUrl ?? ''}
-							alt={`${data.user.firstName} ${data.user.lastName}`}
-						/>
+						<div className={styles.avatarWrap}>
+							<img
+								className={styles.avatar}
+								src={data.user.profilePictureUrl ?? ''}
+								alt={`${data.user.firstName} ${data.user.lastName}`}
+							/>
+						</div>
 
 						<div className={styles.userMeta}>
 							<div className={styles.userName}>
 								{data.user.firstName} {data.user.lastName}
 							</div>
 							<div className={styles.userSince}>
-								{memberSince ? `Membre depuis le ${memberSince}` : ''}
+								{memberSince
+									? `Membre depuis le ${memberSince}`
+									: ''}
 							</div>
 						</div>
 
-						<div className={styles.distanceTotal}>
-							<div className={styles.distanceLabel}>Distance totale parcourue</div>
-							<div className={styles.distanceValue}>{data.stats.totalDistanceKm} km</div>
+						<div className={styles.distanceWrapper}>
+							<div className={styles.distanceRightLabel}>
+								Distance totale parcourue
+							</div>
+
+							<div className={styles.distancePill}>
+								<img
+									src={outlineIcon}
+									alt=""
+									className={styles.distanceIcon}
+									aria-hidden="true"
+								/>
+								<span className={styles.distancePillValue}>
+									{data.stats.totalDistanceKm} km
+								</span>
+							</div>
 						</div>
 					</div>
 				</section>
 
 				<section className={styles.section}>
-					<h2 className={styles.sectionTitle}>Vos dernières performances</h2>
+					<h2 className={styles.sectionTitle}>
+						Vos dernières performances
+					</h2>
 
 					<div className={styles.performanceGrid}>
 						<WeeklyAverageChart
@@ -205,19 +293,31 @@ export default function Dashboard() {
 				<section className={styles.section}>
 					<h2 className={styles.sectionTitle}>Cette semaine</h2>
 
+					{weekRangeText ? (
+						<div className={styles.sectionSubtitle}>
+							{weekRangeText}
+						</div>
+					) : null}
+
 					<div className={styles.weekGrid}>
-						<div className={styles.card}>
-							<div className={styles.placeholder}>Donut objectif (à intégrer)</div>
-						</div>
+						<WeeklyGoalDonut
+							done={weekKpis.sessionsCount}
+							goal={6}
+						/>
 
-						<div className={styles.card}>
-							<div className={styles.kpiTitle}>Durée d’activité</div>
-							<div className={styles.kpiValue}>{weekDurationMin} minutes</div>
-						</div>
-
-						<div className={styles.card}>
-							<div className={styles.kpiTitle}>Distance</div>
-							<div className={styles.kpiValue}>{weekDistanceKm.toFixed(1)} kilomètres</div>
+						<div className={styles.weekKpiColumn}>
+							<WeekKpi
+								label="Durée d’activité"
+								value={weekKpis.durationMin}
+								unit="minutes"
+								accent="blue"
+							/>
+							<WeekKpi
+								label="Distance"
+								value={weekKpis.distanceKm.toFixed(1)}
+								unit="kilomètres"
+								accent="orange"
+							/>
 						</div>
 					</div>
 
