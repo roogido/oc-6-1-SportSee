@@ -4,7 +4,7 @@ SportSee est une application web permettant à un utilisateur de consulter ses s
 
 Ce projet a été réalisé dans le cadre de la formation **OpenClassrooms – Développeur d’application Full-Stack**, mission :
 
-> *Développez un tableau de bord d’analytics avec React et React Router* :contentReference[oaicite:2]{index=2}
+> *Développez un tableau de bord d’analytics avec React et React Router*
 
 L’objectif est de développer une application React moderne intégrant :
 - Authentification
@@ -30,7 +30,7 @@ L’objectif est de développer une application React moderne intégrant :
 
 L’application repose sur :
 
-- **React 18**
+- **React 19**
 - **React Router**
 - **Context API** (gestion globale de l’authentification)
 - **Recharts** (visualisation des données)
@@ -41,7 +41,7 @@ L’application repose sur :
 - Page 404
 - Possibilité de basculer entre **mode mock** et **mode API**
 
-Les appels HTTP sont externalisés hors des composants React (hooks dédiés), conformément aux recommandations du projet :contentReference[oaicite:3]{index=3}.
+Les appels HTTP sont externalisés hors des composants React (hooks dédiés), conformément aux recommandations du projet.
 
 ---
 
@@ -103,6 +103,7 @@ Trois utilisateurs sont disponibles :
 
 ## 📁 Structure simplifiée
 
+```text
 src
 ├── api
 ├── assets
@@ -134,6 +135,7 @@ src
 │   └── Profile
 ├── router
 └── utils
+```
 
 ---
 
@@ -183,7 +185,7 @@ Le projet permet d’utiliser :
 - des données mockées
 - le backend NodeJS fourni
 
-Le choix se fait via la variable d’environnement suivante :
+Le choix se fait via la variable d’environnement suivante (fichier /frontend/.env):
 
 ```bash
 VITE_DATA_SOURCE=mock
