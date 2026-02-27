@@ -16,7 +16,6 @@
  * - getProfileImage()
  */
 
-
 import { getUserId } from '../../api/tokenStorage';
 
 import user123Info from '../raw/users/user123.user-info.json';

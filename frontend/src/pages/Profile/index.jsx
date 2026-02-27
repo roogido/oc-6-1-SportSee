@@ -1,4 +1,13 @@
-// src/pages/Profile/index.jsx
+/**
+ * @file Profile.jsx
+ * @description
+ * Page Profil utilisateur.
+ * Récupère les données user + activité, calcule les statistiques dérivées
+ * et affiche les informations personnelles ainsi que les métriques globales.
+ * 
+ * Date : 23-02-2026
+ */
+
 import { useMemo } from 'react';
 
 import { useUserInfo } from '../../hooks/useUserInfo';
@@ -6,6 +15,7 @@ import { useUserActivity } from '../../hooks/useUserActivity';
 import { parseIsoDateLocal } from '../../utils/isoDate';
 
 import styles from './Profile.module.css';
+
 
 const MS_DAY = 24 * 60 * 60 * 1000;
 
@@ -33,7 +43,9 @@ function inferGender(firstName) {
 function computeRestDaysFromSessions(sessions) {
 	if (!Array.isArray(sessions) || sessions.length < 2) return 0;
 
-	const sorted = [...sessions].sort((a, b) => (a.dateIso > b.dateIso ? 1 : -1));
+	const sorted = [...sessions].sort((a, b) =>
+		a.dateIso > b.dateIso ? 1 : -1,
+	);
 	const start = parseIsoDateLocal(sorted[0].dateIso);
 	const end = parseIsoDateLocal(sorted[sorted.length - 1].dateIso);
 
@@ -60,7 +72,9 @@ export default function Profile() {
 	} = useUserActivity({ startWeek: startDate, endWeek: endDate });
 
 	const memberSince = useMemo(() => {
-		return data?.user?.createdAt ? formatMemberSince(data.user.createdAt) : '';
+		return data?.user?.createdAt
+			? formatMemberSince(data.user.createdAt)
+			: '';
 	}, [data]);
 
 	const gender = useMemo(() => {
@@ -72,12 +86,12 @@ export default function Profile() {
 
 		const totalDurationMin = sessions.reduce(
 			(sum, s) => sum + (Number(s.durationMin) || 0),
-			0
+			0,
 		);
 
 		const totalCalories = sessions.reduce(
 			(sum, s) => sum + (Number(s.calories) || 0),
-			0
+			0,
 		);
 
 		const totalSessions = sessions.length;
@@ -87,10 +101,22 @@ export default function Profile() {
 		return { totalDurationMin, totalCalories, totalSessions, restDays };
 	}, [activityAll]);
 
-	if (isLoading || activityLoading) return <p className={styles.state}>Chargement...</p>;
-	if (error) return <p className={styles.error}>Erreur user: {error.message}</p>;
-	if (activityError) return <p className={styles.error}>Erreur activité: {activityError.message}</p>;
-	if (!data) return <p className={styles.error}>Erreur: données utilisateur indisponibles.</p>;
+	if (isLoading || activityLoading)
+		return <p className={styles.state}>Chargement...</p>;
+	if (error)
+		return <p className={styles.error}>Erreur user: {error.message}</p>;
+	if (activityError)
+		return (
+			<p className={styles.error}>
+				Erreur activité: {activityError.message}
+			</p>
+		);
+	if (!data)
+		return (
+			<p className={styles.error}>
+				Erreur: données utilisateur indisponibles.
+			</p>
+		);
 
 	// Profil: valeurs réelles (si absentes, fallback simple)
 	const age = Number(data.user.age || 0) || 30;
@@ -147,38 +173,61 @@ export default function Profile() {
 
 					{/* RIGHT COLUMN */}
 					<div>
-						<h2 className={styles.sectionTitle}>Vos statistiques</h2>
-						<div className={styles.sectionSubtitle}>Depuis le {memberSince}</div>
+						<h2 className={styles.sectionTitle}>
+							Vos statistiques
+						</h2>
+						<div className={styles.sectionSubtitle}>
+							Depuis le {memberSince}
+						</div>
 
 						<div className={styles.statsGrid}>
 							<div className={styles.statCard}>
-								<div className={styles.statLabel}>Temps total couru</div>
+								<div className={styles.statLabel}>
+									Temps total couru
+								</div>
 								<div className={styles.statValue}>
 									{hours}h {minutes}min
 								</div>
 							</div>
 
 							<div className={styles.statCard}>
-								<div className={styles.statLabel}>Calories brûlées</div>
-								<div className={styles.statValue}>{computed.totalCalories} cal</div>
+								<div className={styles.statLabel}>
+									Calories brûlées
+								</div>
+								<div className={styles.statValue}>
+									{computed.totalCalories} cal
+								</div>
 							</div>
 
 							{/* ✅ Source of truth = statistics.totalDistance */}
 							<div className={styles.statCard}>
-								<div className={styles.statLabel}>Distance totale parcourue</div>
+								<div className={styles.statLabel}>
+									Distance totale parcourue
+								</div>
 								<div className={styles.statValue}>
-									{Number(data.stats.totalDistanceKm || 0).toFixed(1)} km
+									{Number(
+										data.stats.totalDistanceKm || 0,
+									).toFixed(1)}{' '}
+									km
 								</div>
 							</div>
 
 							<div className={styles.statCard}>
-								<div className={styles.statLabel}>Nombre de jours de repos</div>
-								<div className={styles.statValue}>{computed.restDays} jours</div>
+								<div className={styles.statLabel}>
+									Nombre de jours de repos
+								</div>
+								<div className={styles.statValue}>
+									{computed.restDays} jours
+								</div>
 							</div>
 
 							<div className={styles.statCard}>
-								<div className={styles.statLabel}>Nombre de sessions</div>
-								<div className={styles.statValue}>{computed.totalSessions} sessions</div>
+								<div className={styles.statLabel}>
+									Nombre de sessions
+								</div>
+								<div className={styles.statValue}>
+									{computed.totalSessions} sessions
+								</div>
 							</div>
 						</div>
 					</div>

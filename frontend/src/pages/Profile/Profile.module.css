@@ -104,12 +104,18 @@
   padding: 22px 26px;
   color: #ffffff;
   box-shadow: 0 8px 20px rgba(19, 39, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+  align-items: center;
+  text-align: center; 
 }
 
 .statLabel {
+  font-family: var(--font-sans);
   font-size: 14px;
   opacity: 0.85;
-  margin-bottom: 10px;
+  margin-bottom: 6px; 
 }
 
 .statValue {
@@ -126,6 +132,14 @@
     grid-template-columns: 1fr;
   }
 
+  /* 2 cartes par ligne entre 641px et 1024px */
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Retour à 1 carte par ligne sur mobile */
+@media (max-width: 640px) {
   .statsGrid {
     grid-template-columns: 1fr;
   }

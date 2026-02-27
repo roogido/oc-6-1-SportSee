@@ -2,6 +2,7 @@
  * @file App.jsx
  * @description
  * Point d’entrée UI de l’application SportSee (frontend React).
+ * Monte le système de routing
  *
  * Date : 14 février 2026
  */

@@ -9,6 +9,7 @@
 import { useContext } from 'react';
 import { AuthContext } from './authContext';
 
+
 /**
  * Retourne le contexte Auth.
  * Doit être utilisé à l'intérieur d'un AuthProvider.
