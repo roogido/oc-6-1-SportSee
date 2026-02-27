@@ -4,6 +4,8 @@
  * Page d'authentification.
  * - Full screen (pas de header/footer)
  * - Logo intégré dans la colonne gauche
+ *
+ * Date : 22-02-2026
  */
 
 import { useState } from 'react';

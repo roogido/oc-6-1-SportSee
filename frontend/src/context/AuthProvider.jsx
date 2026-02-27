@@ -1,6 +1,7 @@
 /**
  * @file AuthProvider.jsx
- * @description Fournit le contexte d'authentification à l'application.
+ * @description 
+ * Fournit le contexte d'authentification à l'application.
  * Gère l'état du token, l'utilisateur et les actions login/logout.
  *
  * @author Salem Hadjali
@@ -12,10 +13,10 @@ import { loginRequest } from '../api/authApi';
 import { clearAuth, getToken, getUserId, setAuth } from '../api/tokenStorage';
 import { AuthContext } from './authContext';
 
+
 /**
- * Provider d'authentification.
- * Encapsule l'application et expose l'état + actions via AuthContext.
- *
+ * Provider d'authentification global.
+ * Initialise l'état depuis le storage et expose login/logout.
  * @param {{ children: React.ReactNode }} props
  * @returns {JSX.Element}
  */
@@ -26,7 +27,11 @@ export function AuthProvider({ children }) {
 
 	const isAuthenticated = Boolean(token);
 
-	// Fonction stable de connexion
+	/**
+	 * Connecte l'utilisateur et persiste le token.
+	 * @param {{ username: string, password: string }} credentials
+	 * @returns {Promise<{ token: string, userId: string }>}
+	 */
 	const login = useCallback(async ({ username, password }) => {
 		const { token: newToken, userId: newUserId } = await loginRequest({
 			username,
@@ -41,7 +46,10 @@ export function AuthProvider({ children }) {
 		return { token: newToken, userId: newUserId };
 	}, []);
 
-	// Fonction stable de déconnexion
+	/**
+	 * Déconnecte l'utilisateur et nettoie le storage.
+	 * @returns {void}
+	 */
 	const logout = useCallback(() => {
 		clearAuth();
 		setToken(null);

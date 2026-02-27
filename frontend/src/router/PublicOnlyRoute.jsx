@@ -1,6 +1,7 @@
 /**
  * @file PublicOnlyRoute.jsx
- * @description Route accessible uniquement aux utilisateurs non authentifiés.
+ * @description 
+ * Route accessible uniquement aux utilisateurs non authentifiés.
  * Redirige vers le dashboard si l'utilisateur est déjà connecté.
  *
  * @author Salem Hadjali
@@ -9,6 +10,7 @@
 
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
+
 
 /**
  * Composant de garde empêchant un utilisateur authentifié

@@ -9,28 +9,28 @@
  * @date 21-02-2026
  */
 
-// src/components/layout/Layout/Layout.jsx
 import { Outlet, useLocation } from 'react-router-dom';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import styles from './Layout.module.css';
 
+
 export default function Layout() {
-  const { pathname } = useLocation();
-  const isLogin = pathname === '/login' || pathname.startsWith('/login/');
+	const { pathname } = useLocation();
+	const isLogin = pathname === '/login' || pathname.startsWith('/login/');
 
-  return (
-    <div className={styles.viewport}>
-      <div className={styles.app}>
-        {!isLogin && <Header />}
+	return (
+		<div className={styles.viewport}>
+			<div className={styles.app}>
+				{!isLogin && <Header />}
 
-        <main className={styles.main}>
-          <Outlet />
-        </main>
+				<main className={styles.main}>
+					<Outlet />
+				</main>
 
-        {!isLogin && <Footer />}
-      </div>
-    </div>
-  );
+				{!isLogin && <Footer />}
+			</div>
+		</div>
+	);
 }
